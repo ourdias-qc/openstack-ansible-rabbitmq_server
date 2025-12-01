@@ -50,10 +50,19 @@ rabbitmq_upgrade: false
 #  upgrade/version state can be ignored by setting `rabbitmq_ignore_version_state=true`
 rabbitmq_ignore_version_state: false
 
-rabbitmq_package_url: ""
-rabbitmq_package_version: "{{ _rabbitmq_package_version }}"
+# la patch 
+rabbitmq_package_version: "3.10.7-1"
+rabbitmq_erlang_package_version: "13.0.4-1"
+rabbitmq_package_url: "https://deb1.rabbitmq.com/rabbitmq-server/v3.10.7/rabbitmq-server_3.10.7-1_all.deb"
+rabbitmq_erlang_package_url: "https://deb1.rabbitmq.com/erlang/v13.0.4/erlang_13.0.4-1_amd64.deb"
+
 rabbitmq_package_sha256: ""
 rabbitmq_package_path: ""
+
+# GPG key officielle pour le dépôt
+rabbitmq_gpg_keys:
+  - id: '0x0A9AF2115F4687BD29803A206B73A36E6026DFCA'
+    keyserver: 'hkp://keyserver.ubuntu.com:80'
 
 # Set the gpg keys needed to be imported
 # This should be a list of dicts, with each dict

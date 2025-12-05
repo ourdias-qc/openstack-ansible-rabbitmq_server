@@ -16,50 +16,26 @@
 _rabbitmq_install_method: external_repo
 _rabbitmq_package_version: "3.10.7-1"
 
-<<<<<<< HEAD
 _rabbitmq_gpg_keys:
-  - file: gpg/C072C960
-  - file: gpg/A16A4251 # Erlang Cloudsmith repo
-  - file: gpg/0A9AF211 # RabbitMQ Release Signing Key
+  - file: gpg/6026DFCA
 
 # NOTE(noonedeadpunk): List of available packages can be searched here: https://cloudsmith.io/~rabbitmq/repos/rabbitmq-server
-_rabbitmq_repo_url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/{{ ansible_facts['distribution'] | lower }}"
+_rabbitmq_repo_url: >-
+  https://deb1.rabbitmq.com/rabbitmq-server/{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_release'] | lower }}
+  https://deb2.rabbitmq.com/rabbitmq-server/{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_release'] | lower }} 
 _rabbitmq_repo:
   repo: "deb {{ rabbitmq_repo_url }} {{ ansible_facts['distribution_release'] | lower }} main"
   state: "present"
   filename: "RabbitMQ"
 
 # NOTE(noonedeadpunk): List of available packages can be searched here: https://cloudsmith.io/~rabbitmq/repos/rabbitmq-erlang
-_rabbitmq_erlang_repo_url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/{{ ansible_facts['distribution'] | lower }}"
-_rabbitmq_erlang_repo:
-  repo: "deb {{ rabbitmq_erlang_repo_url }} {{ ansible_facts['distribution_release'] | lower }} main"
-  state: "present"
-  filename: els_erlang
-=======
-_rabbitmq_repo_url: >-
-  https://deb1.rabbitmq.com/rabbitmq-server/{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_release'] | lower }}
-  https://deb2.rabbitmq.com/rabbitmq-server/{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_release'] | lower }}
-_rabbitmq_repo:
-  - name: "RabbitMQ"
-    suites: "{{ ansible_facts['distribution_release'] | lower }}"
-    uris: "{{ rabbitmq_repo_url }}"
-    signed_by: "{{ lookup('file', 'gpg/6026DFCA') }}"
-    components: main
-    architectures: "{{ rabbitmq_architecture_mapping.get(ansible_facts['architecture']) }}"
-    state: "{{ (rabbitmq_install_method == 'external_repo') | ternary('present', 'absent') }}"
-
 _rabbitmq_erlang_repo_url: >-
   https://deb1.rabbitmq.com/rabbitmq-erlang/{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_release'] | lower }}
   https://deb2.rabbitmq.com/rabbitmq-erlang/{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_release'] | lower }}
 _rabbitmq_erlang_repo:
-  - name: "els_erlang"
-    suites: "{{ ansible_facts['distribution_release'] | lower }}"
-    uris: "{{ rabbitmq_erlang_repo_url }}"
-    signed_by: "{{ lookup('file', 'gpg/6026DFCA') }}"
-    components: main
-    architectures: "{{ rabbitmq_architecture_mapping.get(ansible_facts['architecture']) }}"
-    state: "{{ (rabbitmq_install_method == 'external_repo') | ternary('present', 'absent') }}"
->>>>>>> c46e878 (Change repository for deb to deb1.rabbitmq.com)
+  repo: "deb {{ rabbitmq_erlang_repo_url }} {{ ansible_facts['distribution_release'] | lower }} main"
+  state: "present"
+  filename: els_erlang
 
 _rabbitmq_erlang_version_spec: "{{ (rabbitmq_install_method == 'external_repo') | ternary('1:25.0.4-1', '1:22.*') }}"
 

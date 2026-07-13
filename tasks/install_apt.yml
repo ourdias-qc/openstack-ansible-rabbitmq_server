@@ -85,12 +85,17 @@
     - repo: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/{{ ansible_facts['distribution'] | lower }} {{ ansible_facts['distribution_release'] | lower }} main"
       filename: "{{ rabbitmq_repo.filename | default(omit) }}"
       condition: "{{ (rabbitmq_install_method == 'external_repo') }}"
+    - repo: "deb https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/{{ ansible_facts['distribution'] | lower }} {{ ansible_facts['distribution_release'] | lower }} main"
+      filename: "{{ rabbitmq_repo.filename | default(omit) }}"
+      condition: "{{ (rabbitmq_install_method == 'external_repo') }}"
     - repo: "deb https://packages.erlang-solutions.com/{{ ansible_facts['distribution'] | lower }} {{ ansible_facts['distribution_release'] | lower }} contrib"
+      filename: "{{ rabbitmq_erlang_repo.filename | default(omit) }}"
+      condition: "{{ (rabbitmq_erlang_install_method == 'external_repo') }}"
+    - repo: "deb https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/{{ ansible_facts['distribution'] | lower }} {{ ansible_facts['distribution_release'] | lower }} main"
       filename: "{{ rabbitmq_erlang_repo.filename | default(omit) }}"
       condition: "{{ (rabbitmq_erlang_install_method == 'external_repo') }}"
   when:
     - item.condition | default(True)
-    - rabbitmq_upgrade | bool
 
 # Due to our Ansible strategy, a skipped task does not
 # have a dictionary result, so we have to cater to the
